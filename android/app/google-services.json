@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "94886729611",
+    "project_id": "fir-e-dad74",
+    "storage_bucket": "fir-e-dad74.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94886729611:android:1989e29f489091a193018e",
+        "android_client_info": {
+          "package_name": "com.example.firebase_learn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp3FmejsX1BO6zD7jHhdMWEF-HQd5-IlQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
