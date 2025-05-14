@@ -45,4 +45,5 @@ app.*.map.json
 /android/app/release
 
 # Other Files
-idk.docx
+/lib/firebase_options.dart
+firebase.json
