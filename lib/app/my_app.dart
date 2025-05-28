@@ -1,3 +1,4 @@
+import 'package:firebase_learn/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
@@ -5,6 +6,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router();
+    return MaterialApp(home:  LoginScreen(),);
   }
 }
