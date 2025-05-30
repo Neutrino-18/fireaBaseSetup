@@ -3,27 +3,39 @@ import 'package:firebase_learn/screens/home_screen.dart';
 import 'package:firebase_learn/widgets/my_text_field.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SingupScreen extends StatefulWidget {
+  const SingupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SingupScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<SingupScreen> {
+  final nameController = TextEditingController();
+  final contactController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future<void> loginWithFirebase() async {
-    final userCreds = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-    );
+  bool isLoggingIn = false;
 
-    if (userCreds.user != null) {
-      Navigator.of(
+  Future<void> signupWithFirebase() async {
+    try {
+      final creds = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      print(creds);
+
+      if (creds.user != null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (ctx) => const HomeScreen()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(
         context,
-      ).pushReplacement(MaterialPageRoute(builder: (ctx) => HomeScreen()));
+      ).showSnackBar(SnackBar(content: Text(e.message!)));
     }
   }
 
@@ -38,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "Welcome Back !!",
+              "Create Account !!",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
@@ -46,6 +58,16 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
 
+            MyTextField(
+              labelText: "Name",
+              controller: nameController,
+              keyboardType: TextInputType.name,
+            ),
+            MyTextField(
+              labelText: "Phone",
+              controller: contactController,
+              keyboardType: TextInputType.phone,
+            ),
             MyTextField(
               labelText: "Email",
               controller: emailController,
@@ -61,8 +83,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 20),
             TextButton(
-              onPressed: () async {},
-              child: const Text("Login Nigga"),
+              onPressed: () async {
+                await signupWithFirebase();
+              },
+              child: const Text("Create Account"),
             ),
           ],
         ),
@@ -72,6 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
+    nameController.dispose();
+    contactController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
