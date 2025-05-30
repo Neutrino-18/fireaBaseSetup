@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_learn/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,6 +18,11 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () async {
           try {
             await FirebaseAuth.instance.signOut();
+            // Navigator.of(context).pop();
+            // Navigator.of(context).pushAndRemoveUntil(
+            //   MaterialPageRoute(builder: (context) => LoginScreen()),
+            //   (route) => false,
+            // );
           } on FirebaseAuthException catch (e) {
             ScaffoldMessenger.of(
               context,
