@@ -4,14 +4,14 @@ import 'package:firebase_learn/screens/login_screen.dart';
 import 'package:firebase_learn/widgets/my_text_field.dart';
 import 'package:flutter/material.dart';
 
-class SingupScreen extends StatefulWidget {
-  const SingupScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<SingupScreen> createState() => _SignupScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _SignupScreenState extends State<SingupScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final nameController = TextEditingController();
   final contactController = TextEditingController();
   final emailController = TextEditingController();

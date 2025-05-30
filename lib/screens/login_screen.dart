@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_learn/screens/home_screen.dart';
-import 'package:firebase_learn/screens/singup_screen.dart';
+import 'package:firebase_learn/screens/signup_screen.dart';
 import 'package:firebase_learn/widgets/my_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -16,17 +16,23 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
 
   Future<void> _loginWithFirebase() async {
-    final userCreds = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-    );
+    try {
+      final userCreds = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
 
-    if (userCreds.user != null) {
-      if (context.mounted) {
-        Navigator.of(
-          context,
-        ).pushReplacement(MaterialPageRoute(builder: (ctx) => HomeScreen()));
+      if (userCreds.user != null) {
+        if (context.mounted) {
+          Navigator.of(
+            context,
+          ).pushReplacement(MaterialPageRoute(builder: (ctx) => HomeScreen()));
+        }
       }
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message!)));
     }
   }
 
@@ -69,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (ctx) => SingupScreen()),
+                      MaterialPageRoute(builder: (ctx) => SignupScreen()),
                     );
                   },
                   child: Text("Don't have an account?"),
