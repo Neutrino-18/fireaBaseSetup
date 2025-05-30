@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_learn/screens/home_screen.dart';
+import 'package:firebase_learn/screens/singup_screen.dart';
 import 'package:firebase_learn/widgets/my_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -14,16 +15,18 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future<void> loginWithFirebase() async {
+  Future<void> _loginWithFirebase() async {
     final userCreds = await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailController.text.trim(),
       password: passwordController.text.trim(),
     );
 
     if (userCreds.user != null) {
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (ctx) => HomeScreen()));
+      if (context.mounted) {
+        Navigator.of(
+          context,
+        ).pushReplacement(MaterialPageRoute(builder: (ctx) => HomeScreen()));
+      }
     }
   }
 
@@ -53,15 +56,31 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
 
             MyTextField(
+              id: 'login',
               labelText: "Password",
-
               controller: passwordController,
               keyboardType: TextInputType.visiblePassword,
               isPassword: true,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => SingupScreen()),
+                    );
+                  },
+                  child: Text("Don't have an account?"),
+                ),
+              ],
+            ),
             const SizedBox(height: 20),
             TextButton(
-              onPressed: () async {},
+              onPressed: () async {
+                await _loginWithFirebase();
+              },
               child: const Text("Login Nigga"),
             ),
           ],

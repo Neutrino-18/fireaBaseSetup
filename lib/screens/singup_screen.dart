@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_learn/screens/home_screen.dart';
+import 'package:firebase_learn/screens/login_screen.dart';
 import 'package:firebase_learn/widgets/my_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -7,10 +8,10 @@ class SingupScreen extends StatefulWidget {
   const SingupScreen({super.key});
 
   @override
-  State<SingupScreen> createState() => _LoginScreenState();
+  State<SingupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<SingupScreen> {
+class _SignupScreenState extends State<SingupScreen> {
   final nameController = TextEditingController();
   final contactController = TextEditingController();
   final emailController = TextEditingController();
@@ -18,7 +19,7 @@ class _LoginScreenState extends State<SingupScreen> {
 
   bool isLoggingIn = false;
 
-  Future<void> signupWithFirebase() async {
+  Future<void> _signupWithFirebase() async {
     try {
       final creds = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
@@ -75,16 +76,30 @@ class _LoginScreenState extends State<SingupScreen> {
             ),
 
             MyTextField(
+              id: 'singup',
               labelText: "Password",
-
               controller: passwordController,
               keyboardType: TextInputType.visiblePassword,
               isPassword: true,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => LoginScreen()),
+                    );
+                  },
+                  child: Text("Already have an account?"),
+                ),
+              ],
+            ),
             const SizedBox(height: 20),
             TextButton(
               onPressed: () async {
-                await signupWithFirebase();
+                await _signupWithFirebase();
               },
               child: const Text("Create Account"),
             ),
